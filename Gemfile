@@ -47,22 +47,15 @@ group :development do
   gem 'taps'
 end
 
-group :test, :development do
-  gem 'rspec-rails'
+gem 'rspec-rails', :group => [:test, :development]
+
+group :test do
+  gem 'capybara'
+  gem 'factory_girl_rails'
+  gem 'guard-rspec'
+  gem 'rb-fsevent'
 end
 
 group :production do
   gem 'pg'
 end
-
-# To use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
-
-# Use unicorn as the app server
-# gem 'unicorn'
-
-# Deploy with Capistrano
-# gem 'capistrano', group: :development
-
-# To use debugger
-# gem 'debugger'

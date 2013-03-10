@@ -7,7 +7,9 @@
     = f.input :preparation_time
     = f.input :roasting_time
     = f.input :quantity
-    = f.input :url
+    = f.input :url, as: :string
+    = f.simple_fields_for :ingredients do |f_ingredients|
+      = f_ingredients.input :name
 
   .form-actions
     = f.button :submit, class: 'btn btn-primary'

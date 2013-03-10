@@ -1,4 +1,4 @@
 .well.sidebar-nav
   %ul.nav.nav-list
-    %li.nav-header= 'Nav Header'
-    %li= 'Link'
+    %li.nav-header= 'Recettes'
+    %li= link_to 'Mes recettes', user_recipes_path(current_user)

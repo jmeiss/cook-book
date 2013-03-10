@@ -1,15 +1,42 @@
-= simple_form_for [current_user, @recipe], html: {class: 'form-horizontal'} do |f|
+= simple_nested_form_for [current_user, @recipe], html: {class: 'form-horizontal'} do |f|
 
   = f.error_notification
 
   .form-inputs
-    = f.input :name
-    = f.input :preparation_time
-    = f.input :roasting_time
-    = f.input :quantity
-    = f.input :url, as: :string
-    = f.simple_fields_for :ingredients do |f_ingredients|
-      = f_ingredients.input :name
+    %fieldset
+      %legend= 'Description'
+      = f.input :name
+      = f.input :preparation_time
+      = f.input :roasting_time
+      = f.input :quantity
+      = f.input :url, as: :string
+
+    %fieldset
+      %legend= 'Ingrédients'
+      = f.simple_fields_for :ingredients do |ingredient|
+        = ingredient.input :name, label: false do
+          = ingredient.input_field :name
+          = ingredient.link_to_remove do
+            = content_tag :span, class: 'btn' do
+              %i.icon-trash
+
+      = f.link_to_add :ingredients, class: :offset2, data: { target: '' } do
+        %i.icon-plus-sign
+        = 'Ajouter un ingrédient'
+
+    %fieldset
+      %legend= 'Etapes'
+      = f.simple_fields_for :directions do |direction|
+        = direction.input :name, label: false do
+          = direction.input_field :name
+          = direction.link_to_remove do
+            = content_tag :span, class: 'btn' do
+              %i.icon-trash
+
+      = f.link_to_add :directions, class: :offset2, data: { target: '' } do
+        %i.icon-plus-sign
+        = 'Ajouter une étape'
+
 
   .form-actions
     = f.button :submit, class: 'btn btn-primary'

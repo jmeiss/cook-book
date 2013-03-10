@@ -131,6 +131,7 @@ GEM
     minitest (4.6.2)
     multi_json (1.6.1)
     multipart-post (1.2.0)
+    nested_form (0.3.1)
     nokogiri (1.5.6)
     oauth2 (0.8.1)
       faraday (~> 0.8)
@@ -275,6 +276,7 @@ DEPENDENCIES
   jbuilder (~> 1.0.1)
   jquery-rails
   meta_request
+  nested_form
   omniauth
   omniauth-facebook
   pg

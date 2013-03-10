@@ -17,29 +17,18 @@
     %link{:href => "images/apple-touch-icon-114x114.png", :rel => "apple-touch-icon", :sizes => "114x114"}
 
   %body
-    .navbar.navbar-inverse.navbar-fixed-top
-      .navbar-inner
-        .container
-          %a.btn.btn-navbar
-            %span.icon-bar
-            %span.icon-bar
-            %span.icon-bar
-          = link_to 'CookBook', root_path, :class => 'brand'
-          .nav-collapse.collapse
-            %ul.nav
-              - if user_signed_in?
-                %li= 'link'
-            - if user_signed_in?
-              %ul.nav.pull-right
-                %li
-                  = link_to destroy_user_session_path, :method => :delete do
-                    %i.icon-off.icon-white.sign-out-icon
-                    = 'Déconnexion'
-            - else
-              = link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook)
-
-
     .container
+      %div
+        %ul.nav.nav-pills.pull-right
+          - if user_signed_in?
+            %li
+              = link_to destroy_user_session_path, :method => :delete do
+                %i.icon-off.icon-white.sign-out-icon
+                = 'Déconnexion'
+          - else
+            %li= link_to 'Connexion Facebook', user_omniauth_authorize_path(:facebook)
+        %h3= link_to 'CookBook', root_path, :class => 'brand'
+
       = yield
       %hr
       %footer

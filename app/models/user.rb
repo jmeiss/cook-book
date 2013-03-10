@@ -4,9 +4,6 @@ class User < ActiveRecord::Base
   devise  :database_authenticatable, :registerable, :recoverable, :rememberable, 
           :trackable, :validatable, :omniauthable, omniauth_providers: [:facebook]
 
-  # Setup accessible (or protected) attributes for your model
-  # attr_accessible :email, :password, :password_confirmation, :remember_me
-
   def self.find_for_facebook_oauth auth, signed_in_resource=nil
     user = User.where(provider: auth.provider, uid: auth.uid).first
     
@@ -28,6 +25,11 @@ class User < ActiveRecord::Base
         user.email = data['email'] if user.email.blank?
       end
     end
+  end
+
+private
+  def user_params
+    params.require(:user).permit(:first_name, :last_name, :email)
   end
 
 end

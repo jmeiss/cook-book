@@ -1,0 +1,22 @@
+%p#notice= notice
+%p
+  %strong Name:
+  = @recipe.name
+%p
+  %strong Preparation time:
+  = @recipe.preparation_time
+%p
+  %strong Roasting time:
+  = @recipe.roasting_time
+%p
+  %strong Quantity:
+  = @recipe.quantity
+%p
+  %strong Url:
+  = @recipe.url
+%p
+  %strong User:
+  = @recipe.user
+= link_to 'Edit', edit_recipe_path(@recipe)
+|
+\#{link_to 'Back', recipes_path}

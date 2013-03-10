@@ -1,0 +1,21 @@
+%h1 Listing directions
+%table
+  %thead
+    %tr
+      %th Name
+      %th Position
+      %th Recipe
+      %th
+      %th
+      %th
+  %tbody
+    - @directions.each do |direction|
+      %tr
+        %td= direction.name
+        %td= direction.position
+        %td= direction.recipe
+        %td= link_to 'Show', direction
+        %td= link_to 'Edit', edit_direction_path(direction)
+        %td= link_to 'Destroy', direction, method: :delete, data: { confirm: 'Are you sure?' }
+%br/
+= link_to 'New Direction', new_direction_path

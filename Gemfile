@@ -10,7 +10,7 @@ gem 'jquery-rails'
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'rails-i18n'
-gem 'simple_form'
+gem 'simple_form', '3.0.0.beta1'
 gem 'thin'
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks

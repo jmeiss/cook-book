@@ -27,6 +27,14 @@ class User < ActiveRecord::Base
     end
   end
 
+  def full_name
+    "#{first_name} #{last_name}"
+  end
+
+  def to_param
+    "#{id}-#{full_name.parameterize}"
+  end
+
 private
   def user_params
     params.require(:user).permit(:first_name, :last_name, :email)

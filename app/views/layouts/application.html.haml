@@ -17,19 +17,37 @@
     %link{:href => "images/apple-touch-icon-114x114.png", :rel => "apple-touch-icon", :sizes => "114x114"}
 
   %body
-    .container
-      %div
-        %ul.nav.nav-pills.pull-right
-          - if user_signed_in?
-            %li
-              = link_to destroy_user_session_path, :method => :delete do
-                %i.icon-off.icon-white.sign-out-icon
-                = 'Déconnexion'
-          - else
-            %li= link_to 'Connexion Facebook', user_omniauth_authorize_path(:facebook)
-        %h3= link_to 'CookBook', root_path, :class => 'brand'
+    .navbar.navbar-inverse.navbar-fixed-top
+      .navbar-inner
+        .container-fluid
+          %a.btn.btn-navbar
+            %span.icon-bar
+            %span.icon-bar
+            %span.icon-bar
+          = link_to 'CookBook', root_path, :class => 'brand'
 
-      = yield
+          .nav-collapse.collapse
+            %p.navbar-text.pull-right
+              - if user_signed_in?
+                = link_to destroy_user_session_path, :method => :delete do
+                  %i.icon-off.icon-white.sign-out-icon
+                  = "Déconnecter #{current_user.full_name}"
+              - else
+                = link_to 'Connexion avec Facebook', user_omniauth_authorize_path(:facebook)
+            %ul.nav
+              %li
+                = link_to_unless_current 'Accueil', root_path do
+                  %li.active= link_to 'Accueil', root_path
+
+    .container-fluid
+      .row-fluid
+        - if user_signed_in?
+          .span3= render 'layouts/logged_sidebar'
+          .span9= yield
+        - else
+          %h1= 'Bienvenue'
+
+      
       %hr
       %footer
         %p=raw "&copy; CookBook - #{l Date.today, format: :year}"

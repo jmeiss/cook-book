@@ -1,35 +1,14 @@
-= form_for(@recipe) do |f|
-  - if @recipe.errors.any?
-    #error_explanation
-      %h2
-        = pluralize(@recipe.errors.count, "error")
-        prohibited this recipe from being saved:
-      %ul
-        - @recipe.errors.full_messages.each do |msg|
-          %li= msg
-  .field
-    = f.label :name
-    %br/
-    = f.text_field :name
-  .field
-    = f.label :preparation_time
-    %br/
-    = f.number_field :preparation_time
-  .field
-    = f.label :roasting_time
-    %br/
-    = f.number_field :roasting_time
-  .field
-    = f.label :quantity
-    %br/
-    = f.text_field :quantity
-  .field
-    = f.label :url
-    %br/
-    = f.text_area :url
-  .field
-    = f.label :user
-    %br/
-    = f.text_field :user
-  .actions
-    = f.submit
+= simple_form_for [current_user, @recipe], html: {class: 'form-horizontal'} do |f|
+
+  = f.error_notification
+
+  .form-inputs
+    = f.input :name
+    = f.input :preparation_time
+    = f.input :roasting_time
+    = f.input :quantity
+    = f.input :url
+
+  .form-actions
+    = f.button :submit, class: 'btn btn-primary'
+    = submit_tag 'Annuler', type: :reset, class: 'btn btn-danger'

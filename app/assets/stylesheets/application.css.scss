@@ -9,5 +9,18 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
- *= require_tree .
  */
+
+@import 'bootstrap';
+
+body {
+  padding-top: 50px;
+  padding-bottom: 40px;
+}
+.align-left     { text-align: left !important; }
+.align-center   { text-align: center !important; }
+.align-right    { text-align: right !important; }
+
+.bold { font-weight: bold; }
+
+@import 'font-awesome';

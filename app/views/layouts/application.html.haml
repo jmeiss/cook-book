@@ -1,0 +1,48 @@
+!!! 5
+%html{:lang => 'fr'}
+  %head
+    %meta{:charset => 'utf-8'}
+    %meta{:name => 'viewport', :content => 'width=device-width, initial-scale=1.0'}
+    %title= "#{yield(:title)} - CookBook" || 'CookBook'
+    = csrf_meta_tags
+
+    /[if lt IE 9]
+      %script{:type => 'text/javascript', :src => 'http://html5shim.googlecode.com/svn/trunk/html5.js'}
+
+    = stylesheet_link_tag 'application', media: :all, 'data-turbolinks-track' => true
+
+    %link{:href => image_path('favicon.ico'), :rel => "shortcut icon"}
+    %link{:href => "images/apple-touch-icon.png", :rel => "apple-touch-icon"}
+    %link{:href => "images/apple-touch-icon-72x72.png", :rel => "apple-touch-icon", :sizes => "72x72"}
+    %link{:href => "images/apple-touch-icon-114x114.png", :rel => "apple-touch-icon", :sizes => "114x114"}
+
+  %body
+    .navbar.navbar-inverse.navbar-fixed-top
+      .navbar-inner
+        .container
+          %a.btn.btn-navbar
+            %span.icon-bar
+            %span.icon-bar
+            %span.icon-bar
+          = link_to 'CookBook', root_path, :class => 'brand'
+          .nav-collapse.collapse
+            %ul.nav
+              - if user_signed_in?
+                %li= 'link'
+            - if user_signed_in?
+              %ul.nav.pull-right
+                %li
+                  = link_to destroy_user_session_path, :method => :delete do
+                    %i.icon-off.icon-white.sign-out-icon
+                    = 'Déconnexion'
+            - else
+              = link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook)
+
+
+    .container
+      = yield
+      %hr
+      %footer
+        %p=raw "&copy; CookBook - #{l Date.today, format: :year}"
+
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true

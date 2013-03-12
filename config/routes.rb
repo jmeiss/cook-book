@@ -9,6 +9,10 @@ CookBook::Application.routes.draw do
     end
   end
 
+  authenticated do
+    root :to => 'recipes#index'
+  end
+
   root to: 'home#index'
 
 end

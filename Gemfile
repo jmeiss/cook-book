@@ -7,7 +7,9 @@ gem 'devise', github: 'idl3/devise', branch: 'rails4'
 gem 'devise-i18n'
 gem 'haml'
 gem 'jquery-rails'
+gem 'json'
 gem 'nested_form'
+gem 'nokogiri'
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'rails-i18n'
@@ -48,7 +50,10 @@ group :development do
   gem 'taps'
 end
 
-gem 'rspec-rails', :group => [:test, :development]
+group :development, :test do
+  gem 'rspec-mocks'
+  gem 'rspec-rails'
+end
 
 group :test do
   gem 'capybara'

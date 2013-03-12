@@ -1,5 +1,5 @@
 %h1 Listing recipes
-%table
+%table.table
   %thead
     %tr
       %th Name
@@ -7,7 +7,6 @@
       %th Roasting time
       %th Quantity
       %th Url
-      %th User
       %th
       %th
       %th
@@ -19,9 +18,8 @@
         %td= recipe.roasting_time
         %td= recipe.quantity
         %td= recipe.url
-        %td= recipe.user
-        %td= link_to 'Show', [current_user, recipe]
-        %td= link_to 'Edit', edit_user_recipe_path(current_user, recipe)
-        %td= link_to 'Destroy', [current_user, recipe], method: :delete, data: { confirm: 'Are you sure?' }
+        %td= link_to 'Voir', [current_user, recipe]
+        %td= link_to 'Modifier', edit_user_recipe_path(current_user, recipe)
+        %td= link_to 'Supprimer', [current_user, recipe], method: :delete, data: { confirm: 'Are you sure?' }
 %br/
-= link_to 'New Recipe', new_user_recipe_path(current_user)
+= link_to 'Nouvelle recette', new_user_recipe_path(current_user)

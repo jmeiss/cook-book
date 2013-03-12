@@ -12,13 +12,12 @@
  */
 
 @import 'bootstrap';
+@import 'bootstrap-responsive';
+@import 'font-awesome';
 
 body {
   padding-top: 60px;
   padding-bottom: 40px;
-}
-.sidebar-nav {
-  padding: 9px 0;
 }
 
 @media (max-width: 980px) {
@@ -30,12 +29,8 @@ body {
   }
 }
 
-@import 'bootstrap-responsive';
-
 .align-left     { text-align: left !important; }
 .align-center   { text-align: center !important; }
 .align-right    { text-align: right !important; }
 
 .bold { font-weight: bold; }
-
-@import 'font-awesome';

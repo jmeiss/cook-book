@@ -1,20 +1,20 @@
 !!! 5
-%html{:lang => 'fr'}
+%html{lang: 'fr'}
   %head
-    %meta{:charset => 'utf-8'}
-    %meta{:name => 'viewport', :content => 'width=device-width, initial-scale=1.0'}
+    %meta{charset: 'utf-8'}
+    %meta{name: 'viewport', content: 'width=device-width, initial-scale=1.0'}
     %title= "#{yield(:title)} - CookBook" || 'CookBook'
     = csrf_meta_tags
 
     /[if lt IE 9]
-      %script{:type => 'text/javascript', :src => 'http://html5shim.googlecode.com/svn/trunk/html5.js'}
+      %script{type: 'text/javascript', src: 'http://html5shim.googlecode.com/svn/trunk/html5.js'}
 
     = stylesheet_link_tag 'application', media: :all, 'data-turbolinks-track' => true
 
-    %link{:href => image_path('favicon.ico'), :rel => "shortcut icon"}
-    %link{:href => "images/apple-touch-icon.png", :rel => "apple-touch-icon"}
-    %link{:href => "images/apple-touch-icon-72x72.png", :rel => "apple-touch-icon", :sizes => "72x72"}
-    %link{:href => "images/apple-touch-icon-114x114.png", :rel => "apple-touch-icon", :sizes => "114x114"}
+    %link{href: image_path('favicon.ico'), rel: 'shortcut icon'}
+    %link{href: 'images/apple-touch-icon.png', rel: 'apple-touch-icon'}
+    %link{href: 'images/apple-touch-icon-72x72.png', rel: 'apple-touch-icon', sizes: '72x72'}
+    %link{href: 'images/apple-touch-icon-114x114.png', rel: 'apple-touch-icon', sizes: '114x114'}
 
   %body
     .navbar.navbar-inverse.navbar-fixed-top
@@ -42,8 +42,7 @@
     .container-fluid
       .row-fluid
         - if user_signed_in?
-          .span3= render 'layouts/logged_sidebar'
-          .span9= yield
+          = yield
         - else
           %h1= 'Bienvenue'
 

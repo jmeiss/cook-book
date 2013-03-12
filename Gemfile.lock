@@ -275,14 +275,17 @@ DEPENDENCIES
   hirb
   jbuilder (~> 1.0.1)
   jquery-rails
+  json
   meta_request
   nested_form
+  nokogiri
   omniauth
   omniauth-facebook
   pg
   rails (= 4.0.0.beta1)
   rails-i18n
   rb-fsevent
+  rspec-mocks
   rspec-rails
   sass-rails
   simple_form (= 3.0.0.beta1)

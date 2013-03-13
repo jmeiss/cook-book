@@ -5,6 +5,7 @@
   .form-inputs
     %fieldset
       %legend= 'Description'
+      = f.input :url, as: :string
       = f.input :name
       = f.input :preparation_time, wrapper: :append do
         = f.input_field :preparation_time, class: 'span3'
@@ -13,7 +14,6 @@
         = f.input_field :roasting_time, class: 'span3'
         = content_tag :span, 'min', class: 'add-on'
       = f.input :quantity
-      = f.input :url, as: :string
 
     %fieldset
       %legend= 'Ingrédients'

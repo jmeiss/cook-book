@@ -1,4 +1,11 @@
-%h1 Listing recipes
+- title 'Liste de mes recettes'
+.page-header
+  %h1= 'Liste de mes recettes'
+
+= simple_form_for [current_user, @recipe], html: {class: 'form-inline'} do |f|
+  = f.input_field :url_to_parse, as: :string, class: 'input-large'
+  = f.submit 'Ajouter', class: 'btn'
+
 %table.table
   %thead
     %tr

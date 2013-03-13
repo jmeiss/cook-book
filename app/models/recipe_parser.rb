@@ -28,12 +28,23 @@ class RecipeParser
   end
 
   def self.get_www_marmiton_org_ingredients string
-    string.gsub('- ', '').split("\r\n")
+    string.gsub!('- ', '')
+
+    ingredients = []
+    patterns = ['<br>', "\r\n"]
+    patterns.each do |pattern|
+      ingredients = string.split(pattern) and break if string.include?(pattern)
+    end
+    ingredients.each {|ingredient| ingredient.strip!}
   end
 
   def self.get_www_marmiton_org_directions string
-    return string.split('<br><br>') if string.include?('<br><br>')
-    string.split(" \r\n\r\n") if string.include?(" \r\n\r\n")
+    directions = []
+    patterns = ['<br><br>', " \r\n\r\n"]
+    patterns.each do |pattern|
+      directions = string.split(pattern) and break if string.include?(pattern)
+    end
+    directions.each {|direction| direction.strip!}
   end
 
 end

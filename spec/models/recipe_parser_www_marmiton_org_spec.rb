@@ -4,8 +4,9 @@ describe RecipeParser do
 
   describe 'www.marmiton.org' do
     it "should return a Recipe object filled with marmiton recipe" do
+      url       = 'http://www.marmiton.org/recettes/recette_les-timbales-de-jeanne-saumon-a-la-mousse-de-courgettes-au-micro-ondes_21864.aspx'
       fake_file = Rails.root.join('spec', 'fixtures', 'm.marmiton.org', '21864.json')
-      RecipeParser.any_instance.stub(:get_json_from_www_marmiton_org_url_id).with('21864').and_return(File.read(fake_file))
+      RecipeParser.any_instance.stub(:get_json_from_www_marmiton_org_url_id).with(any_args).and_return(File.read(fake_file))
       
       recipe  = Recipe.new  name: 'Les Timbales de Jeanne (saumon à la mousse de courgettes au micro-ondes)',
                             preparation_time: 10,
@@ -13,8 +14,29 @@ describe RecipeParser do
                             quantity: 'Pour 4 personnes',
                             url: 'http://www.marmiton.org/recettes/recette_les-timbales-de-jeanne-saumon-a-la-mousse-de-courgettes-au-micro-ondes_21864.aspx'
 
-      # SHOULD BE GREEN
-      # RecipeParser.www_marmiton_org(url).should eq(recipe)
+      ingredients = ["4 tranches de saumon fumé", "2 courgettes", "3 oeufs", "10 cl de crème fraîche épaisse", 
+                        "aneth", "menthe", "1 gousse d'ail (petite)", "poivre, sel", "huile d'olive"]
+      ingredients.each do |ingredient|
+        recipe.ingredients << Ingredient.new(name: ingredient)
+      end
+
+      directions = ["Râper les courgettes.", "Les faire revenir dans de l'huile d'olive avec l'ail et les herbes. Poivrer, et saler (mais pas trop, attention au saumon fumé !). Réserver, et laisser un peu refroidir.", 
+                      "Battre les oeufs et la crème en omelette.", "Mélanger l'omelette avec les courgettes, éventuellement, donner un petit coup de mixeur pour le côté \"mousse\".", 
+                      "Tapisser 4 ramequins avec les tranches de saumon fumé.", "Verser le mélange omelette-courgettes dans les ramequins tapissés de saumon.", 
+                      "Faire cuire au micro-ondes pendant 2 à 3 min, selon la puissance (vérifier la cuisson vous même, il n'y a que ça de vrai !)"]
+      directions.each do |direction|
+        recipe.directions << Direction.new(name: direction)
+      end
+
+      expected_recipe = RecipeParser.get_www_marmiton_org_recipe(url)
+
+      expected_recipe.ingredients.first.name.should eq(ingredients.first)
+      expected_recipe.ingredients.last.name.should eq(ingredients.last)
+      expected_recipe.ingredients.size.should eq(9)
+      expected_recipe.directions.first.name.should eq(directions.first)
+      expected_recipe.directions.last.name.should eq(directions.last)
+      expected_recipe.directions.size.should eq(7)
+      expected_recipe.should eq(recipe)
     end
 
     describe 'www.marmiton.org with \r\n separators' do

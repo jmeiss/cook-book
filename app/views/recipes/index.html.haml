@@ -1,32 +1,27 @@
 - title 'Liste de mes recettes'
 .page-header
+  = link_to new_user_recipe_path(current_user), class: 'btn btn-small pull-right' do
+    %i.icon-plus
+    = 'Ajouter une recette'
   %h1= 'Liste de mes recettes'
 
 = simple_form_for [current_user, @recipe], html: {class: 'form-inline'} do |f|
   = f.input_field :url_to_parse, as: :string, class: 'input-large'
   = f.submit 'Ajouter', class: 'btn'
 
-%table.table
+%table.table.table-striped.table-bordered
   %thead
     %tr
-      %th Name
-      %th Preparation time
-      %th Roasting time
-      %th Quantity
-      %th Url
-      %th
+      %th= 'Recette'
+      %th= 'Quantité'
       %th
       %th
   %tbody
     - @recipes.each do |recipe|
       %tr
-        %td= recipe.name
-        %td= recipe.preparation_time
-        %td= recipe.roasting_time
+        %td
+          = link_to recipe.name, [current_user, recipe]
         %td= recipe.quantity
-        %td= recipe.url
-        %td= link_to 'Voir', [current_user, recipe]
         %td= link_to 'Modifier', edit_user_recipe_path(current_user, recipe)
         %td= link_to 'Supprimer', [current_user, recipe], method: :delete, data: { confirm: 'Are you sure?' }
-%br/
-= link_to 'Nouvelle recette', new_user_recipe_path(current_user)
+

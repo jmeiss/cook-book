@@ -22,6 +22,6 @@ describe RecipesController do
     post :create, user_id: @user, recipe: {url_to_parse: url}
 
     Recipe.last.name.should eq('Les Timbales de Jeanne (saumon à la mousse de courgettes au micro-ondes)')
-    Recipe.count.should eq(1)
+    @user.recipes.count.should eq(1)
   end
 end

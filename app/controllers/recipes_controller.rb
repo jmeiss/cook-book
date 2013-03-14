@@ -28,11 +28,14 @@ class RecipesController < ApplicationController
   # POST /recipes
   # POST /recipes.json
   def create
-    @recipe = if recipe_params[:url_to_parse]
-      Recipe.build_recipe_form_url recipe_params[:url_to_parse]
+    if recipe_params[:url_to_parse]
+      @recipe = Recipe.build_recipe_form_url recipe_params[:url_to_parse]
+      @recipe.user = current_user if @recipe
     else
-      current_user.recipes.new recipe_params
+      @recipe = current_user.recipes.new recipe_params
     end
+
+    # raise @recipe.inspect
 
     respond_to do |format|
       if @recipe && @recipe.save
@@ -77,7 +80,7 @@ class RecipesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def recipe_params
-      params.require(:recipe).permit( :name, :preparation_time, :roasting_time, :quantity, :url, :url_to_parse, :user_id, 
+      params.require(:recipe).permit( :name, :preparation_time, :roasting_time, :quantity, :url, :url_to_parse, :user_id, :user,
                                       directions_attributes: ['name', 'position', '_destroy', 'id'],
                                       ingredients_attributes: ['name', '_destroy', 'id'])
     end

@@ -9,6 +9,8 @@ class RecipesController < ApplicationController
   def index
     @recipe   = Recipe.new
     @recipes  = Recipe.all
+    # @recipe   = current_user.recipes.new
+    # @recipes  = current_user.recipes.all
   end
 
   # GET /recipes/1

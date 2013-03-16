@@ -2,18 +2,21 @@ require 'spec_helper'
 
 describe RecipesController do
 
-  let(:user_with_no_recipe) { FactoryGirl.create :user }
-  let(:user_with_recipes) { FactoryGirl.create :user_with_recipes }
-  let(:supported_url_to_parse) { 'http://www.marmiton.org/recettes/recette_les-timbales-de-jeanne-saumon-a-la-mousse-de-courgettes-au-micro-ondes_21864.aspx' }
-  let(:not_supported_url_to_parse) { 'https://www.google.fr/' }
+  let(:user_with_no_recipe)         { FactoryGirl.create :user }
+  let(:user_with_recipes)           { FactoryGirl.create :user_with_recipes }
+  let(:supported_url_to_parse)      { 'http://www.marmiton.org/recettes/recette_les-timbales-de-jeanne-saumon-a-la-mousse-de-courgettes-au-micro-ondes_21864.aspx' }
+  let(:not_supported_url_to_parse)  { 'https://www.google.fr/' }
 
 
   describe "GET index" do
     it "should assign recipes of current_user" do
-      sign_in user_with_recipes
+      user_1 = FactoryGirl.create :user_with_recipes
+      user_2 = FactoryGirl.create :user_with_recipes
+
+      sign_in user_1
       get :index
 
-      assigns(:recipes).should =~ user_with_recipes.recipes
+      assigns(:recipes).should =~ user_1.recipes
     end
   end
 

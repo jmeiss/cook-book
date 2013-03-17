@@ -37,22 +37,24 @@ class Parser::WwwMarmitonOrg
     ingredients = []
     patterns    = ['<br>', "\r\n"]
     patterns.each do |pattern|
-      ingredients = string.split(pattern) and break if string.include?(pattern)
+      ingredients = string.split(pattern) if string.include?(pattern)
     end
-    ingredients.each {|ingredient| ingredient.strip!}
+    ingredients.reject! { |ingredient| ingredient.empty? }
+    ingredients.each { |ingredient| ingredient.strip! }
   end
 
   def self.get_directions string
     directions  = []
-    patterns    = ['<br><br>', "\r\n\r\n"]
+    patterns    = ['<br><br>', "\r\n\r\n", '<br>']
     patterns.each do |pattern|
-      directions = string.split(pattern) and break if string.include?(pattern)
+      directions = string.split(pattern) if string.include?(pattern)
     end
+    directions.reject! { |direction| direction.empty? }
     directions.each {|direction| direction.strip!}
   end
 
   def self.get_images array
-    [array.last['url'] || nil]
+    array ? [] : array.last['url']
   end
 
 end

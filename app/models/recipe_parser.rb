@@ -24,6 +24,9 @@ class RecipeParser
     directions = RecipeParser.get_www_marmiton_org_directions json_obj['preparationList']
     directions.each { |direction| recipe.directions << Direction.new(name: direction) }
 
+    images_url = RecipeParser.get_www_marmiton_org_images json_obj['pictures']
+    images_url.each { |url| recipe.images << Image.new(remote_file_url: url) }
+
     recipe
   end
 
@@ -50,6 +53,10 @@ class RecipeParser
       directions = string.split(pattern) and break if string.include?(pattern)
     end
     directions.each {|direction| direction.strip!}
+  end
+
+  def self.get_www_marmiton_org_images array
+    [array.last['url'] || nil]
   end
 
 end

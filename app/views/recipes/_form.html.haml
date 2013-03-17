@@ -1,4 +1,4 @@
-= simple_nested_form_for [current_user, @recipe], html: {class: 'form-horizontal'} do |f|
+= simple_nested_form_for [current_user, @recipe], html: {multipart: true, class: 'form-horizontal', id: 'recipe_form'} do |f|
 
   = f.error_notification
 
@@ -23,7 +23,6 @@
           = ingredient.link_to_remove do
             = content_tag :span, class: 'btn' do
               %i.icon-trash
-
       = f.link_to_add :ingredients, class: :offset2, data: { target: '' } do
         %i.icon-plus-sign
         = 'Ajouter un ingrédient'
@@ -36,10 +35,21 @@
           = direction.link_to_remove do
             = content_tag :span, class: 'btn' do
               %i.icon-trash
-
       = f.link_to_add :directions, class: :offset2, data: { target: '' } do
         %i.icon-plus-sign
         = 'Ajouter une étape'
+
+    / %fieldset
+    /   %legend= 'Images'
+    /   = f.simple_fields_for :images do |image|
+    /     = image.input :file, label: false do
+    /       = image.file_field :file
+    /       = image.link_to_remove do
+    /         = content_tag :span, class: 'btn' do
+    /           %i.icon-trash
+    /   = f.link_to_add :images, class: :offset2, data: { target: '' } do
+    /     %i.icon-plus-sign
+    /     = 'Ajouter une étape'
 
 
   .form-actions

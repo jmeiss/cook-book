@@ -34,7 +34,7 @@ class User < ActiveRecord::Base
   end
 
   def to_param
-    "#{id}-#{full_name.parameterize}"
+    "#{id}-#{full_name}".parameterize
   end
 
 private

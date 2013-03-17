@@ -3,10 +3,7 @@ CookBook::Application.routes.draw do
   devise_for :users, :controllers => { :omniauth_callbacks => 'users/omniauth_callbacks' }
 
   resources :users do
-    resources :recipes do
-      resources :directions
-      resources :ingredients
-    end
+    resources :recipes
   end
 
   authenticated do

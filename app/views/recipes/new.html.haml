@@ -8,7 +8,10 @@
       .form-inputs
         %fieldset
           %legend= 'Importer une recette'
-          = f.input :url_to_parse
+          = f.input :url_to_parse, placeholder: 'http://www...'
+          %p= 'Sites supportés :'
+          %ul
+            %li= link_to 'http://www.marmiton.org'
 
       .form-actions
         = f.button :submit, class: 'btn btn-primary'

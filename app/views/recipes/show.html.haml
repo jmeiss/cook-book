@@ -4,7 +4,7 @@
 
 .row
   .span3
-    = image_tag @recipe.images.last.file.url, width: 270, class: 'img-polaroid'
+    = image_tag '', width: 270, class: 'img-polaroid lazy', 'data-original' => @recipe.images.last.file.url
 
   .span9
     .well

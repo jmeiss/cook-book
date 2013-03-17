@@ -47,9 +47,9 @@
         - else
           %h1= 'Bienvenue'
 
-      
-      %hr
-      %footer
-        %p=raw "&copy; CookBook - #{l Date.today, format: :year}"
+      .row
+        %hr
+        %footer
+          %p=raw "&copy; CookBook - #{l Date.today, format: :year}"
 
     = javascript_include_tag 'application', 'data-turbolinks-track' => true

@@ -7,12 +7,8 @@
       %legend= 'Description'
       = f.input :url, as: :string
       = f.input :name
-      = f.input :preparation_time, wrapper: :append do
-        = f.input_field :preparation_time, class: 'span1'
-        = content_tag :span, 'min', class: 'add-on'
-      = f.input :roasting_time, wrapper: :append do
-        = f.input_field :roasting_time, class: 'span1'
-        = content_tag :span, 'min', class: 'add-on'
+      = f.input :preparation_time
+      = f.input :roasting_time
       = f.input :quantity
 
     %fieldset

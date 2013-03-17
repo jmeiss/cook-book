@@ -1,23 +1,40 @@
-%p#notice= notice
-= image_tag @recipe.images.last.file.url
-%p
-  %strong Name:
-  = @recipe.name
-%p
-  %strong Preparation time:
-  = @recipe.preparation_time
-%p
-  %strong Roasting time:
-  = @recipe.roasting_time
-%p
-  %strong Quantity:
-  = @recipe.quantity
-%p
-  %strong Url:
-  = @recipe.url
-%p
-  %strong User:
-  = @recipe.user.full_name
-= link_to 'Edit', edit_user_recipe_path(current_user, @recipe)
-|
-\#{link_to 'Back', user_recipes_path(current_user)}
+- title @recipe.name
+.page-header
+  %h1= @recipe.name
+
+.row
+  .span3
+    = image_tag @recipe.images.last.file.url, width: 270, class: 'img-polaroid'
+
+  .span9
+    .well
+      %dl.dl-horizontal
+        %dt= 'Temps de préparation'
+        %dd= "#{@recipe.preparation_time} min"
+        %dt= 'Temps de cuisson'
+        %dd= "#{@recipe.roasting_time} min"
+        %dt= 'Quantité'
+        %dd= @recipe.quantity
+
+    .pull-right
+      = link_to @recipe.url do
+        = 'Recette originale'
+        %i.icon-arrow-right
+
+    %h3= 'Ingrédients'
+    %ul
+      - @recipe.ingredients.each do |ingredient|
+        %li= ingredient.name
+
+    %h3= 'Etapes'
+    - @recipe.directions.each do |direction|
+      %blockquote
+        %p= direction.name
+
+    .pull-right
+      = link_to edit_user_recipe_path(current_user, @recipe), class: 'btn' do
+        %i.icon-pencil
+        = 'Modifier'
+      = link_to [current_user, @recipe], method: :delete, data: { confirm: 'Etes-vous sûre ?' }, class: 'btn btn-danger' do
+        %i.icon-trash
+        = 'Supprimer'

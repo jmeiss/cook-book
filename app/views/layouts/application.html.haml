@@ -19,7 +19,7 @@
   %body
     .navbar.navbar-inverse.navbar-fixed-top
       .navbar-inner
-        .container-fluid
+        .container
           %a.btn.btn-navbar
             %span.icon-bar
             %span.icon-bar
@@ -39,8 +39,9 @@
                 = link_to_unless_current 'Accueil', root_path do
                   %li.active= link_to 'Accueil', root_path
 
-    .container-fluid
-      .row-fluid
+    .container
+      .row
+        = render 'layouts/flash_messages', flash: flash
         - if user_signed_in?
           = yield
         - else

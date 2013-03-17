@@ -44,7 +44,7 @@ class Parser::WwwMarmitonOrg
 
   def self.get_directions string
     directions  = []
-    patterns    = ['<br><br>', " \r\n\r\n"]
+    patterns    = ['<br><br>', "\r\n\r\n"]
     patterns.each do |pattern|
       directions = string.split(pattern) and break if string.include?(pattern)
     end

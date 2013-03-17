@@ -13,15 +13,12 @@
   %thead
     %tr
       %th= 'Recette'
-      %th= 'Quantité'
-      %th
-      %th
+      %th= 'Temps de préparation (min)'
+      %th= 'Temps de cuisson (min)'
   %tbody
     - @recipes.each do |recipe|
       %tr
-        %td
-          = link_to recipe.name, [current_user, recipe]
-        %td= recipe.quantity
-        %td= link_to 'Modifier', edit_user_recipe_path(current_user, recipe)
-        %td= link_to 'Supprimer', [current_user, recipe], method: :delete, data: { confirm: 'Are you sure?' }
+        %td= link_to recipe.name, [current_user, recipe]
+        %td= recipe.preparation_time
+        %td= recipe.roasting_time
 

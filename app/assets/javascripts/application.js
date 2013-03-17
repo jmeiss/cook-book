@@ -15,4 +15,6 @@
 //= require turbolinks
 //= require jquery_nested_form
 //= require jquery-fileupload
+//= require bootstrap-transition
+//= require bootstrap-alert
 //= require_tree .

@@ -4,8 +4,7 @@
 
 .row
   .span3
-    - unless @recipe.images.count.zero?
-      = image_tag '', width: 270, class: 'img-polaroid lazy', 'data-original' => @recipe.images.last.file.url
+    = image_tag 'beacon-whitesmoke.png', class: 'img-polaroid lazy', 'data-original' => recipe_cover(@recipe)
 
   .span9
     .well

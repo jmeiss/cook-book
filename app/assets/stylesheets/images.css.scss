@@ -1,0 +1,21 @@
+.img-empty {
+  font-size: 8em;
+  padding: 100px 0;
+  width: 270px;
+  color: #ccc;
+}
+
+.recipe-container {
+  @include box-shadow(0 4px 6px -2px #888);
+  background: #fff;
+  margin-bottom: 40px;
+  height: 280px;
+  padding: 5px;
+  .img-crop {
+    overflow: hidden;
+    height: 240px;    
+  }
+}
+.recipe-infos {
+  padding: 10px;
+}

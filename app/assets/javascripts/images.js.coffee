@@ -1,2 +1,3 @@
-$('img.lazy').lazyload -> 
+$('img.lazy').lazyload
+  threshold: 200
   effect: 'fadeIn'

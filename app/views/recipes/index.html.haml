@@ -1,25 +1,18 @@
 - title 'Mes recettes'
+
 .page-header
   = link_to new_user_recipe_path(current_user), class: 'btn btn-small pull-right' do
     %i.icon-plus
     = 'Ajouter une recette'
   %h1= 'Mes recettes'
 
-= simple_form_for [current_user, Recipe.new], html: {class: 'form-inline'} do |f|
-  = f.input :url_to_parse, label: false, wrapper: :append do
-    = f.input_field :url_to_parse, class: 'span3', placeholder: 'Adresse de la recette'
-    = content_tag :button, 'Ajouter', class: 'btn'
-
-%table.table.table-striped.table-bordered
-  %thead
-    %tr
-      %th= 'Recette'
-      %th= 'Temps de préparation (min)'
-      %th= 'Temps de cuisson (min)'
-  %tbody
-    - @recipes.each do |recipe|
-      %tr
-        %td= link_to recipe.name, [current_user, recipe]
-        %td= recipe.preparation_time
-        %td= recipe.roasting_time
-
+- @recipes.each_slice(4) do |row|
+  .row
+    - row.each do |recipe|
+      .span3
+        = link_to [current_user, recipe] do
+          .recipe-container
+            .img-crop
+              = image_tag 'beacon-whitesmoke.png', class: 'lazy', 'data-original' => recipe_cover(recipe)
+            .recipe-infos
+              = recipe.name

@@ -23,6 +23,9 @@ CookBook::Application.configure do
   # config.serve_static_assets = false
   config.serve_static_assets = true
 
+  # Enable assets caching
+  config.static_cache_control = 'public, max-age=30758400'
+
   # Compress JavaScripts and CSS.
   config.assets.js_compressor  = :uglifier
   # config.assets.css_compressor = :sass

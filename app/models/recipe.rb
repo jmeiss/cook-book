@@ -27,8 +27,8 @@ class Recipe < ActiveRecord::Base
 
   def self.build_recipe_from_url url
     return false unless Recipe.is_domain_supported_to_parse? url
-    method_name = RecipeParser.get_method_name_for_url url
-    RecipeParser.send "get_#{method_name}_recipe", url
+    method_name = URI.parse(url).host.gsub(/\./, '_').camelize
+    eval "Parser::#{method_name}.get_recipe('#{url}')"
   end
 
   def self.is_domain_supported_to_parse? url

@@ -32,7 +32,7 @@ describe RecipesController do
 
     it "create should redirect to index if domain of url_to_parse is in SUPPORTED_DOMAINS_TO_PARSE" do
       fake_file = Rails.root.join('spec', 'fixtures', 'm.marmiton.org', '21864.json')
-      RecipeParser.any_instance.stub(:get_json_from_www_marmiton_org_url_id).with(any_args).and_return(File.read(fake_file))
+      Parser::WwwMarmitonOrg.any_instance.stub(:get_json_from_url_id).with(any_args).and_return(File.read(fake_file))
 
       sign_in user_with_no_recipe
       post :create, user_id: user_with_no_recipe, recipe: {url_to_parse: supported_url_to_parse}

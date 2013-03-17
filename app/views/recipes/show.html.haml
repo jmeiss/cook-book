@@ -10,9 +10,9 @@
     .well
       %dl.dl-horizontal
         %dt= 'Temps de préparation'
-        %dd= "#{@recipe.preparation_time} min"
+        %dd= @recipe.preparation_time
         %dt= 'Temps de cuisson'
-        %dd= "#{@recipe.roasting_time} min"
+        %dd= @recipe.roasting_time
         %dt= 'Quantité'
         %dd= @recipe.quantity
 

@@ -1,14 +1,14 @@
 class RecipesController < ApplicationController
   
   before_action :set_recipe, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
+  before_action :is_domain_supported_to_parse?, only: :create
 
-  before_filter :authenticate_user!
 
   # GET /recipes
   # GET /recipes.json
   def index
-    @recipes  = current_user.recipes
-    @recipe   = Recipe.new
+    @recipes = current_user.recipes
   end
 
   # GET /recipes/1
@@ -30,11 +30,7 @@ class RecipesController < ApplicationController
   def create
     if recipe_params[:url_to_parse]
       @recipe = Recipe.build_recipe_from_url recipe_params[:url_to_parse]
-      if @recipe
-        @recipe.user = current_user
-      else
-        # return "Désolé, ce site n'est pas supporté. Merci d'ajouter la recette manuellement."
-      end
+      @recipe.user = current_user if @recipe
     else
       @recipe = current_user.recipes.new recipe_params
     end
@@ -86,5 +82,13 @@ class RecipesController < ApplicationController
                                       directions_attributes:  [:_destroy, :name, :position],
                                       images_attributes:      [:_destroy, :name, :file],
                                       ingredients_attributes: [:_destroy, :name]
+    end
+
+    def is_domain_supported_to_parse?
+      unless Recipe.is_domain_supported_to_parse? recipe_params[:url_to_parse]
+        notify_airbrake "Tryed to parse: #{recipe_params[:url_to_parse]}"
+        flash[:error] = "Ce site n'est pas encore supporté mais vous pouvez ajouter la recette manuellement."
+        redirect_to new_user_recipe_path(current_user)
+      end
     end
 end

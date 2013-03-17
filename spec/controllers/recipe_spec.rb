@@ -25,8 +25,8 @@ describe RecipesController do
       sign_in user_with_no_recipe
       post :create, user_id: user_with_no_recipe, recipe: {url_to_parse: not_supported_url_to_parse}
 
-      # recipe.errors[:url_to_parse].should include "Désolé mais ce site n'est pas supporté. Merci de remplir la recette manuellement."
-      response.should render_template 'new'
+      flash[:error].should eq("Ce site n'est pas encore supporté mais vous pouvez ajouter la recette manuellement.")
+      response.should redirect_to(new_user_recipe_path(user_with_no_recipe))
       Recipe.count.should eq(0)
     end
 

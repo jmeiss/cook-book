@@ -5,7 +5,7 @@
     = 'Ajouter une recette'
   %h1= 'Liste de mes recettes'
 
-= simple_form_for [current_user, @recipe], html: {class: 'form-inline'} do |f|
+= simple_form_for [current_user, Recipe.new], html: {class: 'form-inline'} do |f|
   = f.input :url_to_parse, label: false, wrapper: :append do
     = f.input_field :url_to_parse, class: 'span3', placeholder: 'Adresse de la recette'
     = content_tag :button, 'Ajouter', class: 'btn'

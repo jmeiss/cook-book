@@ -1,9 +1,9 @@
-- title 'Liste de mes recettes'
+- title 'Mes recettes'
 .page-header
   = link_to new_user_recipe_path(current_user), class: 'btn btn-small pull-right' do
     %i.icon-plus
     = 'Ajouter une recette'
-  %h1= 'Liste de mes recettes'
+  %h1= 'Mes recettes'
 
 = simple_form_for [current_user, Recipe.new], html: {class: 'form-inline'} do |f|
   = f.input :url_to_parse, label: false, wrapper: :append do

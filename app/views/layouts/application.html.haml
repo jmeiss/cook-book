@@ -40,16 +40,14 @@
                   %li.active= link_to 'Accueil', root_path
 
     .container
-      .row
-        = render 'layouts/flash_messages', flash: flash
-        - if user_signed_in?
-          = yield
-        - else
-          %h1= 'Bienvenue'
+      = render 'layouts/flash_messages', flash: flash
+      - if user_signed_in?
+        = yield
+      - else
+        %h1= 'Bienvenue'
 
-      .row
-        %hr
-        %footer
-          %p=raw "&copy; CookBook - #{l Date.today, format: :year}"
+      %hr
+      %footer
+        %p=raw "&copy; CookBook - #{l Date.today, format: :year}"
 
     = javascript_include_tag 'application', 'data-turbolinks-track' => true

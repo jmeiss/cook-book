@@ -35,51 +35,45 @@ describe RecipesController do
     end
 
     context 'when signed in' do
-      let!(:current_user)     { login_user FactoryGirl.create :user_with_recipes }
-      let(:not_supported_url) { 'https://www.google.fr/' }
-      let(:supported_url)     { 'http://www.marmiton.org/recettes/recette_les-timbales-de-jeanne-saumon-a-la-mousse-de-courgettes-au-micro-ondes_21864.aspx' }
+      let!(:current_user) { login_user FactoryGirl.create :user_with_recipes }
 
-      context 'and url to parse is not supported' do
-        let!(:action) { post :create, user_id: current_user, recipe: {url_to_parse: not_supported_url} }
-        let(:recipe)  { assigns(:recipe) }
+      context 'with url to parse is not supported' do
+        let (:not_supported_url)  { 'https://www.google.fr/' }
+        let (:action)             { post :create, user_id: current_user, recipe: {url_to_parse: not_supported_url} }
 
-        it { raise recipe.inspect }
-        it { should redirect_to new_user_recipe_path }
-        it { should subject.recipe.url eq(not_supported_url) }
+        it { expect{action}.to change(Recipe, :count).by(0) }
+
+        context 'when was created' do
+          let (:error_message)  { "Ce site n'est pas encore supporté. Merci d'ajouter cette recette manuellement." }
+          let!(:create)         { action }
+          subject               { assigns(:recipe) }
+          
+          it { should render_template 'new' }
+          it { flash[:error].should eq(error_message) }
+          its(:user)  { should eq(current_user) }
+          its(:url)   { should eq(not_supported_url) }
+        end
       end
-    end
-  end
 
+      context 'with url to parse is supported' do
+        let (:fake_file)      { Rails.root.join('spec', 'fixtures', 'm.marmiton.org', '21864.json') }
+        let!(:mock_parser)    { Parser::WwwMarmitonOrg.any_instance.stub(:get_json_from_url_id).with(any_args).and_return(File.read(fake_file)) }
+        let (:supported_url)  { 'http://www.marmiton.org/recettes/recette_les-timbales_21864.aspx' }
+        let (:action)         { post :create, user_id: current_user, recipe: {url_to_parse: supported_url} }
 
+        it { expect{action}.to change(Recipe, :count).by(1) }
 
-######### TO REFACTOR
+        context 'when was created' do
+          let!(:create) { action }
+          let (:recipe) { assigns(:recipe) }
+          subject       { recipe }
 
-
-  let(:user_with_no_recipe)         { FactoryGirl.create :user }
-  let(:user_with_recipes)           { FactoryGirl.create :user_with_recipes }
-  let(:supported_url_to_parse)      { 'http://www.marmiton.org/recettes/recette_les-timbales-de-jeanne-saumon-a-la-mousse-de-courgettes-au-micro-ondes_21864.aspx' }
-  let(:not_supported_url_to_parse)  { 'https://www.google.fr/' }
-
-
-  describe "POST create" do
-    it "create should render new with error if domain of url_to_parse is not in SUPPORTED_DOMAINS_TO_PARSE" do
-      sign_in user_with_no_recipe
-      post :create, user_id: user_with_no_recipe, recipe: {url_to_parse: not_supported_url_to_parse}
-
-      flash[:error].should eq("Ce site n'est pas encore supporté mais vous pouvez ajouter la recette manuellement.")
-      response.should redirect_to(new_user_recipe_path(user_with_no_recipe))
-      Recipe.count.should eq(0)
-    end
-
-    it "create should redirect to index if domain of url_to_parse is in SUPPORTED_DOMAINS_TO_PARSE" do
-      fake_file = Rails.root.join('spec', 'fixtures', 'm.marmiton.org', '21864.json')
-      Parser::WwwMarmitonOrg.any_instance.stub(:get_json_from_url_id).with(any_args).and_return(File.read(fake_file))
-
-      sign_in user_with_no_recipe
-      post :create, user_id: user_with_no_recipe, recipe: {url_to_parse: supported_url_to_parse}
-
-      user_with_no_recipe.recipes.last.name.should eq('Les Timbales de Jeanne (saumon à la mousse de courgettes au micro-ondes)')
-      user_with_no_recipe.recipes.count.should eq(1)
+          it { should redirect_to user_recipe_path(current_user, recipe) }
+          its(:user)  { should eq(current_user) }
+          its(:name)  { should eq('Les Timbales de Jeanne (saumon à la mousse de courgettes au micro-ondes)') }
+          its(:url)   { should eq(supported_url) }
+        end
+      end
     end
   end
 

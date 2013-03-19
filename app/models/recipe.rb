@@ -25,10 +25,12 @@ class Recipe < ActiveRecord::Base
     "#{id}-#{name}".parameterize if name
   end
 
-  def self.build_recipe_from_url url
-    return false unless Recipe.is_domain_supported_to_parse? url
+  def self.build_recipe_from_url_for_user url, user
+    return nil unless Recipe.is_domain_supported_to_parse? url
     method_name = URI.parse(url).host.gsub(/\./, '_').camelize
-    eval "Parser::#{method_name}.get_recipe('#{url}')"
+    recipe = eval "Parser::#{method_name}.get_recipe('#{url}')"
+    recipe.user = user
+    recipe
   end
 
   def self.is_domain_supported_to_parse? url

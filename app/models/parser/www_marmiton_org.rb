@@ -54,7 +54,7 @@ class Parser::WwwMarmitonOrg
   end
 
   def self.get_images array
-    array ? [] : array.last['url']
+    array.nil? ? [] : [array.last['url']]
   end
 
 end

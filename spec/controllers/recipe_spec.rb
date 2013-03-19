@@ -2,11 +2,39 @@ require 'spec_helper'
 
 describe RecipesController do
 
+  describe 'GET index' do
+    subject { assigns(:recipes) }
+
+    context 'not signed in' do
+      let!(:action) { get :index }
+
+      it { should be(nil) }
+    end
+
+    context 'signed in' do
+      let!(:current_user) { FactoryGirl.create :user_with_recipes }
+      let!(:other_user)   { FactoryGirl.create :user_with_recipes }
+      let!(:sign_in)      { sign_in current_user }
+      let!(:action)       { get :index }
+
+      context 'with one user' do
+        it { should =~ current_user.recipes }
+      end
+
+      context 'with two users' do
+        it { should =~ current_user.recipes }
+        it { should_not =~ other_user.recipes }
+      end
+    end
+  end
+
+
+
+
   let(:user_with_no_recipe)         { FactoryGirl.create :user }
   let(:user_with_recipes)           { FactoryGirl.create :user_with_recipes }
   let(:supported_url_to_parse)      { 'http://www.marmiton.org/recettes/recette_les-timbales-de-jeanne-saumon-a-la-mousse-de-courgettes-au-micro-ondes_21864.aspx' }
   let(:not_supported_url_to_parse)  { 'https://www.google.fr/' }
-
 
   describe "GET index" do
     it "should assign recipes of current_user" do

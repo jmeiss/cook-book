@@ -5,16 +5,15 @@ describe RecipesController do
   describe 'GET index' do
     subject { assigns(:recipes) }
 
-    context 'not signed in' do
+    context 'when not signed in' do
       let!(:action) { get :index }
 
-      it { should be(nil) }
+      it { should redirect_to new_user_session_path }
     end
 
-    context 'signed in' do
-      let!(:current_user) { FactoryGirl.create :user_with_recipes }
+    context 'when signed in' do
+      let!(:current_user) { login_user FactoryGirl.create :user_with_recipes }
       let!(:other_user)   { FactoryGirl.create :user_with_recipes }
-      let!(:sign_in)      { sign_in current_user }
       let!(:action)       { get :index }
 
       context 'with one user' do
@@ -28,7 +27,32 @@ describe RecipesController do
     end
   end
 
+  describe 'POST create' do
+    context 'when not signed in' do
+      let!(:action) { post :create, user_id: 42, recipe: {} }
 
+      it { should redirect_to new_user_session_path }
+    end
+
+    context 'when signed in' do
+      let!(:current_user)     { login_user FactoryGirl.create :user_with_recipes }
+      let(:not_supported_url) { 'https://www.google.fr/' }
+      let(:supported_url)     { 'http://www.marmiton.org/recettes/recette_les-timbales-de-jeanne-saumon-a-la-mousse-de-courgettes-au-micro-ondes_21864.aspx' }
+
+      context 'and url to parse is not supported' do
+        let!(:action) { post :create, user_id: current_user, recipe: {url_to_parse: not_supported_url} }
+        let(:recipe)  { assigns(:recipe) }
+
+        it { raise recipe.inspect }
+        it { should redirect_to new_user_recipe_path }
+        it { should subject.recipe.url eq(not_supported_url) }
+      end
+    end
+  end
+
+
+
+######### TO REFACTOR
 
 
   let(:user_with_no_recipe)         { FactoryGirl.create :user }
@@ -36,17 +60,6 @@ describe RecipesController do
   let(:supported_url_to_parse)      { 'http://www.marmiton.org/recettes/recette_les-timbales-de-jeanne-saumon-a-la-mousse-de-courgettes-au-micro-ondes_21864.aspx' }
   let(:not_supported_url_to_parse)  { 'https://www.google.fr/' }
 
-  describe "GET index" do
-    it "should assign recipes of current_user" do
-      user_1 = FactoryGirl.create :user_with_recipes
-      user_2 = FactoryGirl.create :user_with_recipes
-
-      sign_in user_1
-      get :index
-
-      assigns(:recipes).should =~ user_1.recipes
-    end
-  end
 
   describe "POST create" do
     it "create should render new with error if domain of url_to_parse is not in SUPPORTED_DOMAINS_TO_PARSE" do

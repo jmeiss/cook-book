@@ -10,11 +10,11 @@ describe Parser::WwwMarmitonOrg do
 
     subject { recipe }
 
-    its(:name)              { should eq('Les Timbales de Jeanne (saumon à la mousse de courgettes au micro-ondes)') }
-    its(:preparation_time)  { should eq('10') }
-    its(:roasting_time)     { should eq('3') }
-    its(:quantity)          { should eq('Pour 4 personnes') }
-    its(:url)               { should eq('http://www.marmiton.org/recettes/recette_les-timbales-de-jeanne-saumon-a-la-mousse-de-courgettes-au-micro-ondes_21864.aspx') }
+    its(:name)              { should == 'Les Timbales de Jeanne (saumon à la mousse de courgettes au micro-ondes)' }
+    its(:preparation_time)  { should == '10' }
+    its(:roasting_time)     { should == '3' }
+    its(:quantity)          { should == 'Pour 4 personnes' }
+    its(:url)               { should == 'http://www.marmiton.org/recettes/recette_les-timbales-de-jeanne-saumon-a-la-mousse-de-courgettes-au-micro-ondes_21864.aspx' }
   end
 
   context 'with \r\n separators' do
@@ -28,10 +28,10 @@ describe Parser::WwwMarmitonOrg do
 
       subject { Parser::WwwMarmitonOrg.get_ingredients(json['data']['items'][0]['ingredientList']) }
 
-      it           { should eq(ingredients) }
-      its(:size)   { should eq(ingredients.count) }
-      its('first') { should eq(ingredients.first) }
-      its('last')  { should eq(ingredients.last) }
+      it           { should == ingredients }
+      its(:size)   { should == ingredients.count }
+      its('first') { should == ingredients.first }
+      its('last')  { should == ingredients.last }
     end
 
     describe 'parse directions' do
@@ -42,10 +42,10 @@ describe Parser::WwwMarmitonOrg do
       
       subject { Parser::WwwMarmitonOrg.get_directions(json['data']['items'][0]['preparationList']) }
 
-      it           { should eq(directions) }
-      its(:size)   { should eq(directions.count) }
-      its('first') { should eq(directions.first) }
-      its('last')  { should eq(directions.last) }
+      it           { should == directions }
+      its(:size)   { should == directions.count }
+      its('first') { should == directions.first }
+      its('last')  { should == directions.last }
     end
   end
 
@@ -60,10 +60,10 @@ describe Parser::WwwMarmitonOrg do
 
       subject { Parser::WwwMarmitonOrg.get_ingredients(json['data']['items'][0]['ingredientList']) }
 
-      it           { should eq(ingredients) }
-      its(:size)   { should eq(ingredients.count) }
-      its('first') { should eq(ingredients.first) }
-      its('last')  { should eq(ingredients.last) }
+      it           { should == ingredients }
+      its(:size)   { should == ingredients.count }
+      its('first') { should == ingredients.first }
+      its('last')  { should == ingredients.last }
     end
 
     describe 'parse directions' do
@@ -76,10 +76,10 @@ describe Parser::WwwMarmitonOrg do
       
       subject { Parser::WwwMarmitonOrg.get_directions(json['data']['items'][0]['preparationList']) }
 
-      it           { should eq(directions) }
-      its(:size)   { should eq(directions.count) }
-      its('first') { should eq(directions.first) }
-      its('last')  { should eq(directions.last) }
+      it           { should == directions }
+      its(:size)   { should == directions.count }
+      its('first') { should == directions.first }
+      its('last')  { should == directions.last }
     end
   end
 

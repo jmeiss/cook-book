@@ -49,9 +49,9 @@ describe RecipesController do
           subject               { assigns(:recipe) }
           
           it { should render_template 'new' }
-          it { flash[:error].should eq(error_message) }
-          its(:user)  { should eq(current_user) }
-          its(:url)   { should eq(not_supported_url) }
+          it { flash[:error].should == error_message }
+          its(:user)  { should == current_user }
+          its(:url)   { should == not_supported_url }
         end
       end
 
@@ -69,9 +69,9 @@ describe RecipesController do
           subject       { recipe }
 
           it { should redirect_to user_recipe_path(current_user, recipe) }
-          its(:user)  { should eq(current_user) }
-          its(:name)  { should eq('Les Timbales de Jeanne (saumon à la mousse de courgettes au micro-ondes)') }
-          its(:url)   { should eq(supported_url) }
+          its(:user)  { should == current_user }
+          its(:name)  { should == 'Les Timbales de Jeanne (saumon à la mousse de courgettes au micro-ondes)' }
+          its(:url)   { should == supported_url }
         end
       end
     end

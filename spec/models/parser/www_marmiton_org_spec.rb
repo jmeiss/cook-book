@@ -6,8 +6,15 @@ describe Parser::WwwMarmitonOrg do
   let (:json)         { Parser::WwwMarmitonOrg.get_json_from_url_id(recipe_id) }
 
   describe 'parse recipe' do
-    let (:recipe_id)  { '21864' }
-    let (:url)        { 'http://www.marmiton.org/recettes/recette_les-timbales-de-jeanne-saumon-a-la-mousse-de-courgettes-au-micro-ondes_21864.aspx' }
+    let (:recipe_id)    { '21864' }
+    let (:url)          { 'http://www.marmiton.org/recettes/recette_les-timbales-de-jeanne-saumon-a-la-mousse-de-courgettes-au-micro-ondes_21864.aspx' }
+    let (:ingredients)  { ["4 tranches de saumon fumé", "2 courgettes", "3 oeufs", "10 cl de crème fraîche épaisse", 
+                            "aneth", "menthe", "1 gousse d'ail (petite)", "poivre, sel", "huile d'olive"] }
+    let (:directions)   { ["Râper les courgettes.", "Les faire revenir dans de l'huile d'olive avec l'ail et les herbes. Poivrer, et saler (mais pas trop, attention au saumon fumé !). Réserver, et laisser un peu refroidir.", 
+                            "Battre les oeufs et la crème en omelette.", "Mélanger l'omelette avec les courgettes, éventuellement, donner un petit coup de mixeur pour le côté \"mousse\".", 
+                            "Tapisser 4 ramequins avec les tranches de saumon fumé.", "Verser le mélange omelette-courgettes dans les ramequins tapissés de saumon.", 
+                            "Faire cuire au micro-ondes pendant 2 à 3 min, selon la puissance (vérifier la cuisson vous même, il n'y a que ça de vrai !)"] }
+
 
     subject { Parser::WwwMarmitonOrg.get_recipe(url) }
 
@@ -16,6 +23,8 @@ describe Parser::WwwMarmitonOrg do
     its(:roasting_time)     { should == '3' }
     its(:quantity)          { should == 'Pour 4 personnes' }
     its(:url)               { should == 'http://www.marmiton.org/recettes/recette_les-timbales-de-jeanne-saumon-a-la-mousse-de-courgettes-au-micro-ondes_21864.aspx' }
+    its('ingredients.size') { should == ingredients.count }
+    its('directions.size')  { should == directions.count }
   end
 
   context 'with \r\n separators' do

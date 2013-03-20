@@ -1,14 +1,15 @@
 require 'spec_helper'
 
 describe Parser::WwwMarmitonOrg do
+  let (:fake_file)    { Rails.root.join('spec', 'fixtures', 'm.marmiton.org', "#{recipe_id}.json") }
+  let (:mock_parser)  { Parser::WwwMarmitonOrg.any_instance.stub(:get_json_from_url_id).with(any_args).and_return(File.read(fake_file)) }
+  let (:json)         { Parser::WwwMarmitonOrg.get_json_from_url_id(recipe_id) }
 
   describe 'parse recipe' do
-    let (:fake_file)    { Rails.root.join('spec', 'fixtures', 'm.marmiton.org', '21864.json') }
-    let!(:mock_parser)  { Parser::WwwMarmitonOrg.any_instance.stub(:get_json_from_url_id).with(any_args).and_return(File.read(fake_file)) }
-    let (:url)          { 'http://www.marmiton.org/recettes/recette_les-timbales-de-jeanne-saumon-a-la-mousse-de-courgettes-au-micro-ondes_21864.aspx' }
-    let (:recipe)       { Parser::WwwMarmitonOrg.get_recipe(url) }
+    let (:recipe_id)  { '21864' }
+    let (:url)        { 'http://www.marmiton.org/recettes/recette_les-timbales-de-jeanne-saumon-a-la-mousse-de-courgettes-au-micro-ondes_21864.aspx' }
 
-    subject { recipe }
+    subject { Parser::WwwMarmitonOrg.get_recipe(url) }
 
     its(:name)              { should == 'Les Timbales de Jeanne (saumon à la mousse de courgettes au micro-ondes)' }
     its(:preparation_time)  { should == '10' }
@@ -18,13 +19,11 @@ describe Parser::WwwMarmitonOrg do
   end
 
   context 'with \r\n separators' do
-    let (:fake_file)    { Rails.root.join('spec', 'fixtures', 'm.marmiton.org', '21864.json') }
-    let!(:mock_parser)  { Parser::WwwMarmitonOrg.any_instance.stub(:get_json_from_url_id).with(any_args).and_return(File.read(fake_file)) }
-    let (:json)         { Parser::WwwMarmitonOrg.get_json_from_url_id('21864') }
+    let (:recipe_id) { '21864' }
 
     describe 'parse ingredients' do
-      let (:ingredients)  { ["4 tranches de saumon fumé", "2 courgettes", "3 oeufs", "10 cl de crème fraîche épaisse", 
-                              "aneth", "menthe", "1 gousse d'ail (petite)", "poivre, sel", "huile d'olive"] }
+      let (:ingredients) { ["4 tranches de saumon fumé", "2 courgettes", "3 oeufs", "10 cl de crème fraîche épaisse", 
+                            "aneth", "menthe", "1 gousse d'ail (petite)", "poivre, sel", "huile d'olive"] }
 
       subject { Parser::WwwMarmitonOrg.get_ingredients(json['data']['items'][0]['ingredientList']) }
 
@@ -50,13 +49,11 @@ describe Parser::WwwMarmitonOrg do
   end
 
   context 'with <br> separators' do
-    let (:fake_file)    { Rails.root.join('spec', 'fixtures', 'm.marmiton.org', '21966.json') }
-    let!(:mock_parser)  { Parser::WwwMarmitonOrg.any_instance.stub(:get_json_from_url_id).with(any_args).and_return(File.read(fake_file)) }
-    let (:json)         { Parser::WwwMarmitonOrg.get_json_from_url_id('21966') }
-
+    let (:recipe_id) { '21966' }
+    
     describe 'parse ingredients' do
-      let (:ingredients)  { ["2 kg d'épinards", "60 g de beurre", "12 sardines vidées", "3 oignons", "2 gousses d'ail", 
-                              "60 g de crème fraîche épaisse", "50 g de chapelure", "3 cuillères à soupe d'huile", "sel et poivre"] }
+      let (:ingredients) { ["2 kg d'épinards", "60 g de beurre", "12 sardines vidées", "3 oignons", "2 gousses d'ail", 
+                            "60 g de crème fraîche épaisse", "50 g de chapelure", "3 cuillères à soupe d'huile", "sel et poivre"] }
 
       subject { Parser::WwwMarmitonOrg.get_ingredients(json['data']['items'][0]['ingredientList']) }
 

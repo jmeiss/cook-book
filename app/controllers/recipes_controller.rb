@@ -87,7 +87,8 @@ class RecipesController < ApplicationController
       unless Recipe.is_domain_supported_to_parse? recipe_params[:url_to_parse]
         notify_airbrake "Tryed to parse: #{recipe_params[:url_to_parse]}"
         flash[:error] = "Ce site n'est pas encore supporté. Merci d'ajouter cette recette manuellement."
-        @recipe = current_user.recipes.new(url: recipe_params[:url_to_parse])
+        @recipe = current_user.recipes.new url: recipe_params[:url_to_parse]
+
         render action: 'new'
       end
     end

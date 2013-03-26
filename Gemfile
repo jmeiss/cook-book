@@ -52,7 +52,9 @@ end
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'guard'
   gem 'meta_request'
+  gem 'rb-readline'
   gem 'sqlite3'
   gem 'taps'
 end

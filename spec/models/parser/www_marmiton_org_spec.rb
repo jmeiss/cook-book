@@ -15,7 +15,6 @@ describe Parser::WwwMarmitonOrg do
                             "Tapisser 4 ramequins avec les tranches de saumon fumé.", "Verser le mélange omelette-courgettes dans les ramequins tapissés de saumon.", 
                             "Faire cuire au micro-ondes pendant 2 à 3 min, selon la puissance (vérifier la cuisson vous même, il n'y a que ça de vrai !)"] }
 
-
     subject { Parser::WwwMarmitonOrg.get_recipe(url) }
 
     its(:name)              { should == 'Les Timbales de Jeanne (saumon à la mousse de courgettes au micro-ondes)' }
